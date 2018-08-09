@@ -174,32 +174,3 @@ func (c *CustomerController) GetAllOrders() {
 	c.Data["json"] = orders
 	c.ServeJSON()
 }
-// @Title Get
-// @Description find customer by customer ID
-// @Param	customerID		path 	string	true		"the customer id you want to get"
-// @Success 200 {customer} models.Customer
-// @Failure 403 :customerID is empty
-// @router /nearmost-retailer/:customerId [get]
-func (c *CustomerController) GetNearmostRetailer() {
-  var customerID uint
-	c.Ctx.Input.Bind(&customerID, ":customerId")
-
-	if customerID != 0 {
-		var customer models.Customer
-		if db.First(&customer, customerID).RecordNotFound() {
-			c.Data["json"] = struct { Success bool `json:"success"` } {false}
-			return
-		}else{
-			longitude,_ := c.GetFloat("longitude")
-			latitude,_ := c.GetFloat("latitude")
-			if longitude != 0 && latitude != 0 {
-				db.Model(&customer).Update(&models.Customer{Longitude: float32(longitude), Latitude: float32(latitude)})
-			}
-		}
-	}
-	var retailer models.Retailer
-
-	db.First(&retailer)
-	c.Data["json"] = retailer
-	c.ServeJSON()
-}
