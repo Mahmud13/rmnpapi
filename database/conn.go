@@ -8,7 +8,7 @@ import(
 var DB *gorm.DB
 
 func init() {
-  db, err := gorm.Open("mysql", "root:hydrogen jukebox@/mnp_api?parseTime=true&charset=utf8&loc=Local")
+  db, err := gorm.Open("mysql", "root:root@(172.17.0.2)/mnp_api?parseTime=true&charset=utf8&loc=Local")
   if err != nil {
     panic("failed to connect database")
   }
